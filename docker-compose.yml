@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  laravel-mysql:
+    image: mysql:latest
+    ports:
+      - 8081:3306
+    environment:
+      - MYSQL_DATABASE=laravel
+      - MYSQL_ROOT_PASSWORD=passw0rd!
+    volumes:
+      - ./.mySql:/var/lib/mysql
+
+  laravel-phpMyAdmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8080:80
+    environment:
+        - MYSQL_ROOT_PASSWORD=passw0rd!
+    links:
+      - laravel-mysql:db
+
+  laravel-phpapache:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 80:80
