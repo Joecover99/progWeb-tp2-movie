@@ -22,7 +22,8 @@ class MovieController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+        $film = Film::find($id);
+        $film->update($request->all());
     }
 
     /**
@@ -32,7 +33,9 @@ class MovieController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        Movie::create($request->all());
+        if(Auth::check() && Auth::user()->isAdmin()){ // A VOIR POUR UNE AUTRE OPTION
+            $film = Film::create($request->all());
+            }
     }
 
     /**
@@ -42,7 +45,7 @@ class MovieController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(Movie $movie) {
-        return $movie;
+        //return $movie;
     }
 
     /**
@@ -52,7 +55,7 @@ class MovieController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit(Movie $movie) {
-        //
+        if(Auth::check() && Auth::user()->isAdmin()) //VOIR UNE AUTRE OPTION
     }
 
     /**
@@ -64,7 +67,8 @@ class MovieController extends Controller {
      */
     public function update(Request $request, Movie $movie)
     {
-        //
+        $film = Film::find($id);
+        $film->update($request->all());
     }
 
     /**
@@ -74,6 +78,7 @@ class MovieController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(Movie $movie) {
-        //
+        if(Auth::check() && Auth::user()->isAdmin()){//VOIR UNE AUTRE OPTION
+            Film::findOrFail($id)->delete();
     }
 }
