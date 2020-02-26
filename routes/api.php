@@ -17,4 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('movies', 'MovieController');
+//CRUD
+Route::resource('movie', 'movieController');
+
+Route::('login', 'loginController'); 
+Route::('login', 'registerController');
