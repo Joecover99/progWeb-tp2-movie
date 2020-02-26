@@ -53,9 +53,9 @@ class MovieController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) // with critiques
+    public function show(Movie $movie) // with critiques
     {
-        return Movie::findOrFail($id);
+        return $movie;
     }
 
     /**
@@ -65,10 +65,8 @@ class MovieController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) //only if admin
+    public function update(Request $request, Movie $movie) //only if admin
     {
-        $movie = Movie::findOrFail($id);
-
         $movie->title = $request->title;
         $movie->director = $request->director;
         $movie->actors = $request->actors;
@@ -84,8 +82,8 @@ class MovieController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) //only if admin
+    public function destroy(Movie $movie) //only if admin
     {
-        Movie::findOrFail($id)->delete();
+        $movie->delete();
     }
 }
