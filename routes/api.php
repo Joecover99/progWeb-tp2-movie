@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MovieController;
 use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,7 @@ use Illuminate\Http\Request;
 // });
 
 //CRUD
-Route::resource('movie', 'MovieController');
+Route::apiResource('movie', 'MovieController');
 
 // Route::('login', 'loginController'); 
 // Route::('login', 'registerController');

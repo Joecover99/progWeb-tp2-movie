@@ -23,7 +23,7 @@ class MovieController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) // Only if admin
     {
         // if ((isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1) || $row["role"] == 1){
         //     $movie = Movie::create($request->all());
@@ -53,7 +53,7 @@ class MovieController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id) // with critiques
     {
         return Movie::findOrFail($id);
     }
@@ -65,7 +65,7 @@ class MovieController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id) //only if admin
     {
         $movie = Movie::findOrFail($id);
 
@@ -84,7 +84,7 @@ class MovieController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id) //only if admin
     {
         Movie::findOrFail($id)->delete();
     }
