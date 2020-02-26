@@ -7,8 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Actor::class, function (Faker $faker) {
     return [
-        'first_name' = $faker->firstName(),
-        'last_name' = $faker->lastName(),
-        'birthdate' = $faker->date()
+        'first_name' => $faker->firstName(),
+        'last_name' => $faker->lastName(),
+        'birthdate' => $faker->date()
     ];
 });

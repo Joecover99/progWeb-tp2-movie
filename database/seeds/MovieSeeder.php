@@ -3,7 +3,6 @@
 use Illuminate\Database\Seeder;
 use App\Movie;
 use App\Actor;
-USE Illuminate\Support\Facades\DB;
 
 class MovieSeeder extends Seeder
 {
@@ -14,13 +13,14 @@ class MovieSeeder extends Seeder
      */
     public function run()
     {
-        factory(Movie::class, 100)->create();
-
-        for ($i=0; $i < 150; $i++) { 
-            DB::table('actor_movie')->insert([
-                'movie_id' => Movie::all()->random()->first()->id,
-                'actor_id' => Movie::all()->random()->first()->id,
-            ]);
-        }
+        factory(Movie::class, 100)
+            ->create()
+            ->each(function (Movie $movie) {
+                $actorCount = rand(1, 6);
+                for ($i=0; $i < $actorCount; $i++) { 
+                    $randomActor = Actor::all()->random();
+                    $movie->addActor($randomActor);
+                }
+            });
     }
 }

@@ -7,14 +7,14 @@ use App\Language;
 use Faker\Generator as Faker;
 
 $factory->define(Movie::class, function (Faker $faker) {
-    $releaseDate = $faker->date();
+    $releaseYear = $faker->year();
     return [
-        'title' = "Captain AIDS ({$releaseDate})",
-        'description' = $faker->paragraph(),
-        'release_year' = $releaseDate,
-        `language_id` = Language::all()->random()->first()->id,
-        `length` = $faker->randomNumber(3),
-        `rating` = array_rand(Movie::ratingEnum),
-        `special_features` = array_rand(Movie::specialFeatures)
+        'title' => "Captain AIDS ({$releaseYear} director cut)",
+        'description' => $faker->sentence(),
+        'release_year' => $releaseYear,
+        'language_id' => Language::all()->random()->id,
+        'length' => $faker->randomNumber(3),
+        'rating' => $faker->randomElement(Movie::ratingEnum),
+        'special_features' => array_rand(Movie::specialFeatures)
     ];
 });
