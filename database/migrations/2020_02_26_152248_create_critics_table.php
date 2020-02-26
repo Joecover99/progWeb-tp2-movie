@@ -17,11 +17,11 @@ class CreateCriticsTable extends Migration
             $table->bigIncrements('id');
             
             // user id
-            $table->integer('user_id')->unsigned()->index();
+            $table->bigInteger('user_id', false, true)->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             // movie id
-            $table->integer('movie_id')->unsigned()->index();
+            $table->bigInteger('movie_id', false, true)->index();
             $table->foreign('movie_id')->references('id')->on('movies')->onDelete('cascade');
 
             $table->double('score', 3, 1);

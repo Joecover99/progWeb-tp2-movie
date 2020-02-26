@@ -14,5 +14,18 @@
             "server": "laravel-mysql",
             "username": "root"
         }
+    ],
+    "intelephense.environment.documentRoot": "./public/index.php",
+    "intelephense.environment.phpVersion": "7.4.2",
+    "intelephense.files.exclude": [
+        "**/.git/**",
+        "**/.svn/**",
+        "**/.hg/**",
+        "**/CVS/**",
+        "**/.DS_Store/**",
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/vendor/**/{Tests,tests}/**",
+        "**/.mySql"
     ]
 }

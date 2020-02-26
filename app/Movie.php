@@ -24,14 +24,26 @@ class Movie extends Model
 
     protected $fillable = [
         'title',
+        'description',
         'release_year',
         'language_id',
-        'rental_duration',
-        'rental_rate',
-        'replacement_cost'
+        'length',
+        'rating',
+        'special_features'
     ];
 
-    public function actors(): \Illuminate\Database\Eloquent\Relations\HasMany {
-        return $this->hasMany(Actor::class);
+    // Region Actors
+    public function actors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany {
+        return $this->belongsToMany(Actor::class);
+    }
+
+    public function hasActor(Actor $actor): bool {
+        return $this->actors()->find($actor->id) != null;
+    }
+
+    public function addActor(Actor $actor): void {
+        if(!$this->hasActor($actor)) {
+            $this->actors()->attach($actor->id);
+        }
     }
 }

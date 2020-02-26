@@ -11,7 +11,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $sqlStatement = file_get_contents(database_path() . '/seeds/initDatabase.sql');
-        // DB::statement($sqlStatement);
+        $this->call([
+            UserSeeder::class,
+            ActorSeeder::class,
+            LanguageSeeder::class,
+            MovieSeeder::class,
+            CriticSeeder::class,
+        ]);
     }
 }
