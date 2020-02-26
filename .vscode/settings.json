@@ -2,5 +2,17 @@
     "php.validate.enable": false,
     "files.exclude": {
         "**/.mySql": true
-    }
+    },
+    "sqltools.connections": [
+        {
+            "connectionTimeout": 999999,
+            "database": "laravel",
+            "dialect": "MySQL",
+            "name": "Laravel DB",
+            "password": "passw0rd!",
+            "port": 3306,
+            "server": "laravel-mysql",
+            "username": "root"
+        }
+    ]
 }

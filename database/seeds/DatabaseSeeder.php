@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $sqlStatement = file_get_contents(database_path() . '/seeds/initDatabase.sql');
-        DB::statement($sqlStatement);
+        // $sqlStatement = file_get_contents(database_path() . '/seeds/initDatabase.sql');
+        // DB::statement($sqlStatement);
     }
 }
