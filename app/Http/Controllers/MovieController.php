@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\movie;
+use App\Movie;
 use Illuminate\Http\Request;
 use App\Http\Resources\Movie as MovieResource;
 
@@ -14,17 +14,7 @@ class MovieController extends Controller {
      */
     public function index()
     {
-        return FilmResource::collection(Film::paginate(20));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //Web Page   
+        return MovieResource::collection(Movie::paginate(20));
     }
 
     /**
@@ -35,9 +25,9 @@ class MovieController extends Controller {
      */
     public function store(Request $request)
     {
-        if ((isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1) || $row["role"] == 1){
-            $movie = Film::create($request->all());
-            }
+        // if ((isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1) || $row["role"] == 1){
+        //     $movie = Movie::create($request->all());
+        //     }
         //$donnees = $request->all();
         
         // $unFilm = Film::create([ 
@@ -65,44 +55,7 @@ class MovieController extends Controller {
      */
     public function show($id)
     {
-        //Consultation de tous les acteurs d’un certain film
-        $movie = FilmResource(Film::find($id));
-        if($movie){[
-            'title' => $donnees['title'], 
-            'description' => $donnees['description'],
-            'release_year' => $donnees['release_year'],
-            'critiques' => $donnees['critiques']
-        ]}else{
-            return("your movie can't be found");
-        };
-        /*
-        public function show($id)
-        {
-        $movie=Movie::find($id);
-        if($movie){
-        return response()->json(['status'=>true,'movie'=>$movie]);
-        }else{
-        return response()->json(['status'=>false]);
-        }
-        }*/
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //Modification d’un film; tous les champs sont modifiables à l’exception de l’identifiant
-        //du film, bien sûr (seulement si admin)
-
-        //*************Voir avec la méthode passport **********************
-        /*if(Auth::check() && Auth::user()->isAdmin()){*/
-            $movie = Movie::findOrFail($id);
-            return view('movies.edit')->withMovie($movie);
-        /*}*/
+        return Movie::findOrFail($id);
     }
 
     /**
@@ -133,7 +86,6 @@ class MovieController extends Controller {
      */
     public function destroy($id)
     {
-    Film::findOrFail($id)->delete();
-
-    return redirect(route('home'));
+        Movie::findOrFail($id)->delete();
     }
+}
