@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Actor;
+use App\Review;
 use Illuminate\Http\Request;
 
-class ActorController extends Controller
+class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +31,10 @@ class ActorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Actor  $actor
+     * @param  \App\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function show(Actor $actor)
+    public function show(Review $review)
     {
         //
     }
@@ -43,10 +43,10 @@ class ActorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Actor  $actor
+     * @param  \App\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Actor $actor)
+    public function update(Request $request, Review $review)
     {
         //
     }
@@ -54,10 +54,10 @@ class ActorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Actor  $actor
+     * @param  \App\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Actor $actor)
+    public function destroy(Review $review)
     {
         //
     }

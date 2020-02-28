@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Critic extends Model
+class Review extends Model
 {
     protected $fillable = [
         'user_id',
@@ -12,4 +12,9 @@ class Critic extends Model
         'score',
         'comment'
     ];
+
+    public function movie()
+    {
+        return $this->belongsTo(Movie::class);
+    }
 }

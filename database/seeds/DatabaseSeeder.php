@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
             ActorSeeder::class,
             LanguageSeeder::class,
             MovieSeeder::class,
-            CriticSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

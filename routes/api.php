@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\MovieController;
+use App\Movie;
 use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,15 @@ use Illuminate\Http\Request;
 // });
 
 //CRUD
-Route::apiResource('movie', 'MovieController');
+Route::apiResource('movies', 'MovieController');
 
-// Route::('login', 'loginController'); 
-// Route::('login', 'registerController');
+Route::get('movies/{movie}/actors', [
+    'as' => 'movies.show.actors',
+    'uses' => 'MovieController@showActors'
+]);
+
+Route::get('movies/{id}/reviews', function ($movieId) {
+    // $movie = Movie::findOrFail($movieId);
+    // $user = Auth::user();
+    return 'yyet';
+})->middleware('auth');

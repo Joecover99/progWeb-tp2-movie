@@ -47,15 +47,30 @@ class MovieController extends Controller {
 
     }
 
+    public function storeReview(Movie $movie, Request $request) {
+
+    }
+
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Movie $movie
      * @return \Illuminate\Http\Response
      */
-    public function show(Movie $movie) // with critiques
+    public function show(Movie $movie)
     {
-        return $movie;
+        return $movie->load('reviews');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  Movie $movie
+     * @return \Illuminate\Http\Response
+     */
+    public function showActors(Movie $movie)
+    {
+        return $movie->actors;
     }
 
     /**

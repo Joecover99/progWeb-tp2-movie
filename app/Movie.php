@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Actor;
 
 class Movie extends Model
 {
@@ -31,6 +30,11 @@ class Movie extends Model
         'rating',
         'special_features'
     ];
+
+    // Region reviews
+    public function reviews(): \Illuminate\Database\Eloquent\Relations\HasMany {
+        return $this->hasMany(Review::class);
+    }
 
     // Region Actors
     public function actors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany {
