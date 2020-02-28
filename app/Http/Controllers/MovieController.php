@@ -12,9 +12,21 @@ class MovieController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($request)
     {
+        $inputTitle = $request->input('title');
+        $inputRating = $request->input('rating');
+        $inputMinLenght = $request->input('minimal-lenght');
+        $inputMaxLenght = $request->input('minimal-lenght');
+        Movie::where([
+            ['title', 'like', $inputTitle ],
+            ['rating', 'like', $inputRating ],
+            ['lenght', '>=', $inputMinLenght ],
+            ['lenght', '<=', $inputMaxLenght ]
+        ]);
+
         return MovieResource::collection(Movie::paginate(20));
+    
     }
 
     /**
@@ -82,6 +94,7 @@ class MovieController extends Controller {
      */
     public function update(Request $request, Movie $movie) //only if admin
     {
+        
         $movie->title = $request->title;
         $movie->director = $request->director;
         $movie->actors = $request->actors;
@@ -101,4 +114,5 @@ class MovieController extends Controller {
     {
         $movie->delete();
     }
+
 }
