@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Language;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Movie extends JsonResource
@@ -15,8 +16,15 @@ class Movie extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->title,
-            'year' => $this->release_year
+            'id' => $this->id,
+            'title' => $this->title,
+            'release_year' => $this->release_year,
+            'length' => $this->length,
+            'description' => $this->description,
+            'rating' => $this->rating,
+            'language' => $this->language,
+            'special_features' => $this->special_features,
+            'image' => $this->image
         ];
     }
 }

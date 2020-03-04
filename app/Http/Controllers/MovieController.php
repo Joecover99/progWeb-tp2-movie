@@ -12,20 +12,32 @@ class MovieController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($request)
+    public function index(Request $request)
     {
-        $inputTitle = $request->input('title');
-        $inputRating = $request->input('rating');
-        $inputMinLenght = $request->input('minimal-lenght');
-        $inputMaxLenght = $request->input('minimal-lenght');
-        Movie::where([
-            ['title', 'like', $inputTitle ],
-            ['rating', 'like', $inputRating ],
-            ['lenght', '>=', $inputMinLenght ],
-            ['lenght', '<=', $inputMaxLenght ]
-        ]);
+        $query = Movie::query();
 
-        return MovieResource::collection(Movie::paginate(20));
+        if($request->has('min_length')) {
+            $query = $query->where('length', '>=', $request->input('min_length'));
+        }
+
+        if($request->has('max_length')) {
+            $query = $query->where('length', '<=', $request->input('max_length'));
+        }
+
+        if($request->has('key_word')) {
+            $keyWord = $request->input('key_word');
+            $query = $query->where(function($query) use ($keyWord) {
+                $query->where('title', 'like', '%'.$keyWord.'%')
+                ->orWhere('description', 'like', '%'.$keyWord.'%');
+            });
+        }
+
+        if($request->has('rating')) {
+            $query = $query->where('rating', '=', $request->input('rating'));
+        }
+
+        // dd($query->toSql(), $query->getBindings());
+        return MovieResource::collection($query->paginate(20));
     
     }
 

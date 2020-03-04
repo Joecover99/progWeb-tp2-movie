@@ -31,6 +31,10 @@ class Movie extends Model
         'special_features'
     ];
 
+    public function language() {
+        return $this->belongsTo((Language::class));
+    }
+
     // Region reviews
     public function reviews(): \Illuminate\Database\Eloquent\Relations\HasMany {
         return $this->hasMany(Review::class);

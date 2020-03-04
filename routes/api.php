@@ -28,8 +28,8 @@ Route::get('movies/{movie}/actors', [
     'uses' => 'MovieController@showActors'
 ]);
 
-Route::get('movies/{id}/reviews', function ($movieId) {
+Route::post('movies/{id}/reviews', function ($movieId) {
     // $movie = Movie::findOrFail($movieId);
     // $user = Auth::user();
     return 'yyet';
-})->middleware('auth');
+}); //->middleware('auth');
