@@ -24,7 +24,6 @@ Route::post('register', [ 'as' => 'api.register', 'uses' => 'Auth\RegisterContro
 Route::get('users/{id}', [ 'as' => 'api.curentUser', 'uses' => 'UserController@show' ]);
 Route::patch('users/{id}', [ 'as' => 'api.curentUser.update', 'uses' => 'UserController@update' ]);
 
-
 // Movies
 Route::apiResource('movies', 'MovieController');
 Route::get('movies/{id}/actors', [ 'as' => 'movies.show.actors', 'uses' => 'MovieController@showActors' ]);
