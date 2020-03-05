@@ -15,26 +15,34 @@ class MovieController extends Controller {
      */
     public function index(Request $request)
     {
+        $validatedData = $request->validate([
+            'min_length' => 'integer|min:0',
+            'max_length' => 'integer|min:0',
+            'key_word' => '',
+            'rating' => 'between:0,99.9'
+        ]);
+
+
         $query = Movie::query();
-
-        if($request->has('min_length')) {
-            $query = $query->where('length', '>=', $request->input('min_length'));
+        
+        if(array_has($validatedData,'min_length')) {
+            $query = $query->where('length', '>=', $validatedData['min_length']);
         }
 
-        if($request->has('max_length')) {
-            $query = $query->where('length', '<=', $request->input('max_length'));
+        if(array_has($validatedData,'max_length')) {
+            $query = $query->where('length', '<=', $validatedData['max_length']);
         }
 
-        if($request->has('key_word')) {
-            $keyWord = $request->input('key_word');
+        if(array_has($validatedData,'key_word')) {
+            $keyWord = $validatedData['key_word'];
             $query = $query->where(function($query) use ($keyWord) {
                 $query->where('title', 'like', '%'.$keyWord.'%')
                 ->orWhere('description', 'like', '%'.$keyWord.'%');
             });
         }
 
-        if($request->has('rating')) {
-            $query = $query->where('rating', '=', $request->input('rating'));
+        if(array_has($validatedData,'rating')) {
+            $query = $query->where('rating', '=', $validatedData['rating']);
         }
 
         // dd($query->toSql(), $query->getBindings());

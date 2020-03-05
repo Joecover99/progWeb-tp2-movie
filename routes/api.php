@@ -23,11 +23,11 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::post('login', [
     'as' => 'api.login',
-    'Auth\LoginController@login'
+    'uses' => 'Auth\LoginController@login'
 ]);
 Route::post('register', [
     'as' => 'api.register',
-    'Auth\RegisterController@register'
+    'uses' => 'Auth\RegisterController@register'
 ]);
 
 //CRUD

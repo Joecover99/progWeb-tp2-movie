@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Language;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -12,13 +13,34 @@ class MovieTest extends TestCase
 {
 
     use RefreshDatabase;
+
+    private $movieParameters = [
+        'title' => 'Have it Your Way',
+        'release_year' => 2018,
+        'length' => 1,
+        'description' => 'https://www.youtube.com/watch?v=EFtU3olKhpE',
+        'language_id' => 0
+    ];
+
+    private function actinAsUser() {
+        $user = factory(User::class)->create();
+        return $this->actingAs($user);
+    }
+
+    private function actinAsAdmin() {
+        $user = factory(User::class)->create();
+        $user->is_admin = true;
+        return $this->actingAs($user);
+    }
+
+    /// TEST: [get] /api/movies
     /**
-     * A basic feature test example.
-     *
+     * description
+     * 
+     * @test
      * @return void
      */
-    public function testIndexReturnsAllMoviesPaginatedTest()
-    {
+    public function getIndexAsGuess_returnsAllMoviesPaginated() {
 
         $response = $this->json('GET', '/api/movies');
 
@@ -34,37 +56,54 @@ class MovieTest extends TestCase
             // ])
     }
 
-    /** @test */
-    public function testPostIndexStoreProvidedMovie()
-    {
-        $parameters = [
-            'title' => 'Have it Your Way',
-            'release_year' => 2018,
-            'length' => 1,
-            'description' => 'https://www.youtube.com/watch?v=EFtU3olKhpE',
-            'language_id' => 0
-        ];
+    /// TEST: [post] /api/movies
+    /**
+     * Undocumented function
+     *
+     * @test
+     * @return void
+     */
+    public function postIndexAsAdminWithRequiredParameter_storeMovieInDatabase() {
+        $this->actinAsAdmin()
+            ->post('/api/movies', $this->movieParameters)
+            ->assertStatus(201);
 
-        $this->post('/api/movies', $parameters)->assertStatus(201);
-        $this->assertDatabaseHas('movies', $parameters);
+        $this->assertDatabaseHas('movies', $this->movieParameters);
     }
 
-    public function testPostIndexStoreWithoutRequiredParameterResponse400()
-    {
-        $this->post('/api/movies')->assertStatus(400);
+    /**
+     * Undocumented function
+     *
+     * @test
+     * @return void
+     */
+    public function postIndexAsGuess_returnsStatus401() {
+        $this->post('api/movies', $this->movieParameters)
+            ->assertStatus(401);
     }
 
-    public function testBasicExample()
-    {
-        $response = $this->withHeaders([
-            'X-Header' => 'Value',
-        ])->json('POST', '/user', ['name' => 'Sally']);
+    /**
+     * Undocumented function
+     *
+     * @test
+     * @return void
+     */
+    public function postIndexAsUser_returnsStatus403() {
+        $this->actinAsUser()
+            ->post('api/movies', $this->movieParameters)
+            ->assertStatus(403);
+    }
 
-        $response
-            ->assertStatus(201)
-            ->assertJson([
-                'created' => true,
-            ]);
+    /**
+     * Undocumented function
+     * 
+     * @test
+     * @return void
+     */
+    public function postIndexAsAdminWithoutRequiredParameter_returnsStatus400() {
+        $this->actinAsAdmin()
+            ->post('/api/movies')
+            ->assertStatus(400);
     }
 
     /*
