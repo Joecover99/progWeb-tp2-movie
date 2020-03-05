@@ -119,10 +119,24 @@ class MovieTest extends TestCase
     Authentification
 
     MOVIE
-        Load reviews ONLY IF USER(with a review / without a review)
+    create movie
+        Index (ADD A MOVIE / Query has min_lenght / Query has max_lenght / query has key_Word / Query rating / load movie + reviews)
+            public function it_prevent_non_logged_in_users_from_creating_new_articles()
+                {
+                    $response = $this->get(route('create_new_article'));
+                    $response->assertRedirect('login');
+                }
+        Load reviews ONLY IF USER(with a review for a specific movie / without a review)
         ShowActors (actors in a specific movie movie/actor)
         Update ONLY IF ADMIN(edit title / edit director / edit actors / edit runtime / edit genre / not admin try to modify = ERROR)
         Destroy  ONLY IF ADMIN(Remove a movie)
-
+        
+       
+    Research movie
+         Mots-clés (dans title et description)
+         Classification (rating)
+         Durée minimale
+         Durée maximale
+         Tous les critères sont optionnels et si aucun n’est fourni, on doit simplement retourner les 20 premiers films
     */
 }
