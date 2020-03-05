@@ -24,15 +24,27 @@ class ExampleTest extends TestCase
 	$response = $this->get(route('get_all_articles'));
 	$response->assertSuccessful();
 }
-public function it_allows_anyone_to_see_individual_articles()
+public function it_allows_anyone_to_see_individual_user()
 {
 	$article = Article::get()->random();
 	$response = $this->get(route('view_article', ['id' => $article->id]));
 */
 }
-/*
- Consultation des informations d’un certain user (seulement si on est connecté avec ce user) / if user not connected ERROR
- Ajout d’un nouveau user 
+
+ //Consultation des informations d’un certain user (seulement si on est connecté avec ce user) / if user not connected ERROR
+     public function a_user_can_access_an_other_userProfile()
+    {
+        $user = factory(User::class)
+            ->states('user')
+            ->create();
+
+        $this->actingAs($user)
+            ->get('/user')
+            ->assertStatus(200);
+    }
+  
+ //Ajout d’un nouveau user 
+
     public function a_default_user_is_not_an_admin()
     {
         $user = factory(User::class)->create();
@@ -55,9 +67,22 @@ public function it_allows_anyone_to_see_individual_articles()
 
         $this->actingAs($user)
             ->get('/admin')
-            ->assertRedirect('home');
+            ->assertStatus(403);
     }
     
+ //Modification d’un user existant (seulement si on est connecté avec ce user) / if user not connected or other user ERROR
+    public function a_user_can_modify_his_userProfile()
+    {
+        $user = factory(User::class)
+            ->states('user')
+            ->create();
+
+        $this->actingAs($user)
+            ->get('/user')
+            ->assertStatus(200);
+    }
+ 
+    /*
     public function an_admin_can_access_the_admin_section()
     {
         $admin = factory(User::class)
@@ -67,6 +92,4 @@ public function it_allows_anyone_to_see_individual_articles()
         $this->actingAs($admin)
             ->get('/admin')
             ->assertStatus(200);
-    }
- Modification d’un user existant (seulement si on est connecté avec ce user) / if user not connected or other user ERROR
-*/
+    }*/
