@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Language;
+use App\Movie;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -19,7 +20,8 @@ class MovieFeatureTest extends TestCase
         'release_year' => 2018,
         'length' => 1,
         'description' => 'https://www.youtube.com/watch?v=EFtU3olKhpE',
-        'language_id' => 0
+        'rating' => 'G',
+        'language_id' => 1,
     ];
 
     /// TEST: [get] /api/movies
@@ -53,11 +55,17 @@ class MovieFeatureTest extends TestCase
      * @return void
      */
     public function postIndexAsAdminWithRequiredParameter_storeMovieInDatabase() {
+        // Arrange
+        $movieAttribute = factory(Movie::class)->raw();
+
+        // act
         $this->actinAsAdmin()
-            ->post('/api/movies', $this->movieParameters)
+            ->post('/api/movies', $movieAttribute)
+
+        // assert
             ->assertStatus(201);
 
-        $this->assertDatabaseHas('movies', $this->movieParameters);
+        $this->assertDatabaseHas('movies', $movieAttribute);
     }
 
     /**

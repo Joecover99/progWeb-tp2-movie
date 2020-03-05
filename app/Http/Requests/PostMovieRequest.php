@@ -50,10 +50,4 @@ class PostMovieRequest extends FormRequest
             ]
         ];
     }
-
-    public function withValidator(Validator $validator) {
-        if($validator->fails()) {
-            // throw new HttpException(400, $validator->errors());
-        }
-    }
 }

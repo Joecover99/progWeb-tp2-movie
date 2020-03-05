@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Movie as MovieResource;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class MovieController extends Controller {
 
@@ -62,11 +63,40 @@ class MovieController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostMovieRequest $request)
+    public function store(Request $request)
     {
-        if(Auth::guest()) return response()->json('Unauthorized', 401);
+        if(Auth::guest())
+            return response()->json('Unauthorized', 401);
 
-        Movie::create($request->validated());
+        if(!Auth::user()->is_admin)
+            return response()->json('Unauthorized', 403);
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'release_year' => 'required|integer',
+            'length' => 'required|integer|min:0',
+            'description' => 'required',
+            'rating' => [
+                Rule::in(Movie::ratingEnum)
+            ],
+            'language_id' => [
+                'required',
+                'integer',
+                Rule::exists('languages', 'id')
+            ],
+            'special_features' => [
+                'nullable',
+                Rule::in(Movie::specialFeatures)
+            ],
+            'image' => [
+                //nothing
+            ]
+        ]);
+
+        if($validator->fails()) {
+            return response()->json($validator->getMessageBag(), 400);
+        }
+        Movie::create($validator->validated());
 
         return response()->json('Success', 201);
     }
