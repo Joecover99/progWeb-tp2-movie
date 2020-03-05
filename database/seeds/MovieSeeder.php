@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Movie;
 use App\Actor;
+use App\Review;
 
 class MovieSeeder extends Seeder
 {
@@ -20,6 +21,12 @@ class MovieSeeder extends Seeder
                 for ($i=0; $i < $actorCount; $i++) { 
                     $randomActor = Actor::all()->random();
                     $movie->addActor($randomActor);
+                }
+
+                $reviewCount = rand(0, 2);
+                for ($i=0; $i < $actorCount; $i++) { 
+                    $review = factory(Review::class)->make();
+                    $movie->createReview($review->attributesToArray());
                 }
             });
     }

@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class MovieTest extends TestCase
+class MovieFeatureTest extends TestCase
 {
 
     use RefreshDatabase;
@@ -21,17 +21,6 @@ class MovieTest extends TestCase
         'description' => 'https://www.youtube.com/watch?v=EFtU3olKhpE',
         'language_id' => 0
     ];
-
-    private function actinAsUser() {
-        $user = factory(User::class)->create();
-        return $this->actingAs($user);
-    }
-
-    private function actinAsAdmin() {
-        $user = factory(User::class)->create();
-        $user->is_admin = true;
-        return $this->actingAs($user);
-    }
 
     /// TEST: [get] /api/movies
     /**
@@ -106,6 +95,19 @@ class MovieTest extends TestCase
             ->assertStatus(400);
     }
 
+    /// TEST: [get] /api/movies/{id}/actors
+    /**
+     * Undocumented function
+     *
+     * @test
+     * @return void
+     */
+    public function aGuessCanRetrieveAMoviesActors() {
+        $movieId = 1;
+        $this->jsonGet("/api/movies/{$movieId}/actors")
+            ->assertSuccessful();
+    }
+
     /*
     create 
     rating enum
@@ -119,24 +121,10 @@ class MovieTest extends TestCase
     Authentification
 
     MOVIE
-    create movie
-        Index (ADD A MOVIE / Query has min_lenght / Query has max_lenght / query has key_Word / Query rating / load movie + reviews)
-            public function it_prevent_non_logged_in_users_from_creating_new_articles()
-                {
-                    $response = $this->get(route('create_new_article'));
-                    $response->assertRedirect('login');
-                }
-        Load reviews ONLY IF USER(with a review for a specific movie / without a review)
+        Load reviews ONLY IF USER(with a review / without a review)
         ShowActors (actors in a specific movie movie/actor)
         Update ONLY IF ADMIN(edit title / edit director / edit actors / edit runtime / edit genre / not admin try to modify = ERROR)
         Destroy  ONLY IF ADMIN(Remove a movie)
-        
-       
-    Research movie
-         Mots-clés (dans title et description)
-         Classification (rating)
-         Durée minimale
-         Durée maximale
-         Tous les critères sont optionnels et si aucun n’est fourni, on doit simplement retourner les 20 premiers films
+
     */
 }

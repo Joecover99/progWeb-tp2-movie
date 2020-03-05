@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
-class Movie extends TestCase
+class ActorUnitTest extends TestCase
 {
     /**
      * A basic unit test example.
@@ -15,12 +15,4 @@ class Movie extends TestCase
     {
         $this->assertTrue(true);
     }
-
-
-    // language
-    // reviews
-    // createReview
-    // actors
-    // hasActor
-    // addActor
 }

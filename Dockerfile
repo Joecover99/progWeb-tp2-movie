@@ -33,3 +33,5 @@ COPY laravel-apache.conf laravel.conf
 RUN a2dissite 000-default.conf && \
 	a2ensite laravel.conf && \
 	a2enmod rewrite
+
+# Enable node/npm

@@ -9,11 +9,11 @@ use Laracasts\TestDummy\Factory as TestDummy;
 class LanguageSeeder extends Seeder
 {
     public function run() {
-        (new Language(['name' => 'English']))->save();
-        (new Language(['name' => 'Italian']))->save();
-        (new Language(['name' => 'Japanese']))->save();
-        (new Language(['name' => 'Mandarin']))->save();
-        (new Language(['name' => 'French']))->save();
-        (new Language(['name' => 'German']))->save();
+        Language::create(['name' => 'English']);
+        Language::create(['name' => 'Italian']);
+        Language::create(['name' => 'Japanese']);
+        Language::create(['name' => 'Mandarin']);
+        Language::create(['name' => 'French']);
+        Language::create(['name' => 'German']);
     }
 }

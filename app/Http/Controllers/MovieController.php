@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostMovieRequest;
+use App\Http\Requests\PostReviewRequest;
 use App\Movie;
 use Illuminate\Http\Request;
 use App\Http\Resources\Movie as MovieResource;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +23,9 @@ class MovieController extends Controller {
             'min_length' => 'integer|min:0',
             'max_length' => 'integer|min:0',
             'key_word' => '',
-            'rating' => 'between:0,99.9'
+            'rating' => [
+                Rule::in(Movie::ratingEnum)
+            ]
         ]);
 
 
@@ -56,31 +62,13 @@ class MovieController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) // Only if admin
+    public function store(PostMovieRequest $request)
     {
-        // Validate data
-        $validatedData = $request->validate([
-            'title' => 'required|unique:posts|max:255',
-            'release_year' => 'required|integer',
-            'length' => 'required|integer|min:0',
-            'description' => 'required',
-            'rating' => [ Rule::in(Movie::ratingEnum) ],
-            'language_id' => [
-                'required',
-                'integer',
-                Rule::exists('languages', 'id')
-            ],
-            'special_features' => [
-                Rule::in(Movie::specialFeatures)
-            ],
-            'image' => [
-                //nothing
-            ]
-        ]);
+        if(Auth::guest()) return response()->json('Unauthorized', 401);
 
-        Movie::create($validatedData);
+        Movie::create($request->validated());
 
-        return response()->json('', 201);
+        return response()->json('Success', 201);
     }
 
     /**
@@ -90,8 +78,13 @@ class MovieController extends Controller {
      * @param Request $request
      * @return void
      */
-    public function storeReview(Movie $movie, Request $request) {
+    public function storeReview(Movie $movie, PostReviewRequest $request) {
+        if(Auth::guest()) return response()->json('Unauthorized', 401);
 
+        $reviewAttributes = $request->validated();
+        $reviewAttributes['user_id'] = Auth::user();
+
+        $movie->reviews()->create($reviewAttributes);
     }
 
     /**
@@ -123,14 +116,15 @@ class MovieController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Movie $movie) //only if admin
+    public function update(PostMovieRequest $request, Movie $movie) //only if admin
     {
-        
-        $movie->title = $request->title;
-        $movie->director = $request->director;
-        $movie->actors = $request->actors;
-        $movie->runtime = $request->runtime;
-        $movie->genre = $request->genre;
+        $validatedData = $request->validated();
+
+        $movie->title = $validatedData->title;
+        $movie->director = $validatedData->director;
+        $movie->actors = $validatedData->actors;
+        $movie->runtime = $validatedData->runtime;
+        $movie->genre = $validatedData->genre;
 
         $movie->save();
     }
@@ -143,6 +137,8 @@ class MovieController extends Controller {
      */
     public function destroy(Movie $movie) //only if admin
     {
+        if(Auth::guest()) return response()->json('Unauthorized', 401);
+
         $movie->delete();
     }
 

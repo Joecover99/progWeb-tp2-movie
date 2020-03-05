@@ -15,8 +15,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ActorSeeder::class,
             LanguageSeeder::class,
-            MovieSeeder::class,
-            ReviewSeeder::class,
+            MovieSeeder::class
         ]);
     }
 }

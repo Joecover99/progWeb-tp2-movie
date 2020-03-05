@@ -16,7 +16,7 @@ class IsAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(!Auth::user()->is_admin) {
+        if(!$request->user()->is_admin) {
             return response('', 403);
         }
 

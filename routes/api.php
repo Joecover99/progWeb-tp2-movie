@@ -18,28 +18,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-Route::post('login', [
-    'as' => 'api.login',
-    'uses' => 'Auth\LoginController@login'
-]);
-Route::post('register', [
-    'as' => 'api.register',
-    'uses' => 'Auth\RegisterController@register'
-]);
+// User
+Route::post('login', [ 'as' => 'api.login', 'uses' => 'Auth\LoginController@login' ]);
+Route::post('register', [ 'as' => 'api.register', 'uses' => 'Auth\RegisterController@register' ]);
+Route::get('users/{id}', [ 'as' => 'api.curentUser', 'uses' => 'UserController@index' ]);
+Route::patch('users/{id}', [ 'as' => 'api.curentUser.update', 'uses' => 'UserController@update' ]);
 
-//CRUD
+
+// Movies
 Route::apiResource('movies', 'MovieController');
-
-Route::get('movies/{movie}/actors', [
-    'as' => 'movies.show.actors',
-    'uses' => 'MovieController@showActors'
-]);
-
-Route::post('movies/{id}/reviews', function ($movieId) {
-    // $movie = Movie::findOrFail($movieId);
-    // $user = Auth::user();
-    return 'yyet';
-}); //->middleware('auth');
+Route::get('movies/{id}/actors', [ 'as' => 'movies.show.actors', 'uses' => 'MovieController@showActors' ]);
+Route::post('movies/{id}/reviews', [ 'as' => 'movies.show.actors', 'uses' => 'MovieController@storeReview']);

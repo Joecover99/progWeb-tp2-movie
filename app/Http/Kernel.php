@@ -44,7 +44,7 @@ class Kernel extends HttpKernel
 
         // Check if user is auth'ed and an admin.
         'admin' => [
-            'auth',
+            'auth:api',
             \App\Http\Middleware\IsAdmin::class
         ]
     ];
