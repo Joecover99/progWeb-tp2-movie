@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\MovieController;
 use App\Movie;
 use Illuminate\Http\Request;
@@ -19,6 +21,14 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+Route::post('login', [
+    'as' => 'api.login',
+    'Auth\LoginController@login'
+]);
+Route::post('register', [
+    'as' => 'api.register',
+    'Auth\RegisterController@register'
+]);
 
 //CRUD
 Route::apiResource('movies', 'MovieController');

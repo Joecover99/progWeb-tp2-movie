@@ -40,6 +40,10 @@ class Movie extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function createReview(array $attribute): void {
+        $this->reviews()->create($attribute);
+    }
+
     // Region Actors
     public function actors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany {
         return $this->belongsToMany(Actor::class);
