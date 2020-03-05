@@ -31,8 +31,7 @@
 		"felixfbecker.php-debug",
 		"hbenl.vscode-test-explorer",
 		"recca0120.vscode-phpunit",
-		"mtxr.sqltools",
-		"eridem.vscode-postman"
+		"mtxr.sqltools"
 	],
 
 	"forwardPorts": [80]

@@ -14,13 +14,19 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, User $user)
+    public function show(User $user, Request $request)
     {
         if(Auth::guest()) return response()->json('Unauthorized', 401);
 
+        dd([
+            $request->user()->id,
+            $user->id
+        ]);
         if($user->id != $request->user()->id) {
             return response()->json("Unauthorized", 403);
         }
+
+        return $user;
     }
 
     /**

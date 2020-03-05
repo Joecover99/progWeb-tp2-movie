@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 // User
 Route::post('login', [ 'as' => 'api.login', 'uses' => 'Auth\LoginController@login' ]);
 Route::post('register', [ 'as' => 'api.register', 'uses' => 'Auth\RegisterController@register' ]);
-Route::get('users/{id}', [ 'as' => 'api.curentUser', 'uses' => 'UserController@index' ]);
+Route::get('users/{id}', [ 'as' => 'api.curentUser', 'uses' => 'UserController@show' ]);
 Route::patch('users/{id}', [ 'as' => 'api.curentUser.update', 'uses' => 'UserController@update' ]);
 
 

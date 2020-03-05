@@ -19,8 +19,8 @@ class ReviewTest extends TestCase
     public function guessCanAccessAMoviesReview()
     {
         // Arrange
-        $movie = factory(Movie::class, 1)->create();
-        $review = factory(Review::class,1 )->raw();
+        $movie = factory(Movie::class)->create();
+        $review = factory(Review::class)->raw();
         $movie->createReview($review);
 
         // Act

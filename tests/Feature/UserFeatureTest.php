@@ -88,9 +88,44 @@ class UserFeatureTest extends TestCase {
         $user = factory(User::class)->create();
 
         // Act
-        $response = $this->jsonGet("/api/user/{$user}");
+        $response = $this->jsonGet("/api/users/{$user->id}");
 
         // Assert
         $response->assertStatus(401); // Unauthenticated
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @test
+     * @return void
+     */
+    public function aUserCannotAccessAnotherUserPage() {
+        // Arrange
+        $userA = factory(User::class)->create();
+        $userB = factory(User::class)->create();
+
+        // Act
+        $response = $this->actingAs($userA)->jsonGet("/api/users/{$userB->id}");
+
+        // Assert
+        $response->assertStatus(403); // Unauthenticated
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @test
+     * @return void
+     */
+    public function aUserCanAccessItsOwnPage() {
+        // Arrange
+        $userA = factory(User::class)->create();
+
+        // Act
+        $response = $this->actingAs($userA)->jsonGet("/api/users/{$userA->id}");
+
+        // Assert
+        $response->dump()->assertStatus(200); // Unauthenticated
     }
 }
