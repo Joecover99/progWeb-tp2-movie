@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Movie;
 use Illuminate\Http\Request;
 use App\Http\Resources\Movie as MovieResource;
+use Illuminate\Validation\Rule;
 
 class MovieController extends Controller {
     /**
@@ -49,28 +50,38 @@ class MovieController extends Controller {
      */
     public function store(Request $request) // Only if admin
     {
-        // if ((isset($_SESSION['user_id']) && $_SESSION['user_id'] == 1) || $row["role"] == 1){
-        //     $movie = Movie::create($request->all());
-        //     }
-        //$donnees = $request->all();
-        
-        // $unFilm = Film::create([ 
-        //   'title' => $donnees['title'], 
-        //   'description' => $donnees['description'],
-        //   'release_year' => $donnees['release_year'],
-        //   'language_id' => $donnees['language_id'],
-        //   'rental_duration' => $donnees['rental_duration'],
-        //   'rental_rate' => $donnees['rental_rate'],
-        //   'replacement_cost' => $donnees['replacement_cost']
-        //  ]);
+        // Validate data
+        $validatedData = $request->validate([
+            'title' => 'required|unique:posts|max:255',
+            'release_year' => 'required|integer',
+            'length' => 'required|integer|min:0',
+            'description' => 'required',
+            'rating' => [ Rule::in(Movie::ratingEnum) ],
+            'language_id' => [
+                'required',
+                'integer',
+                Rule::exists('languages', 'id')
+            ],
+            'special_features' => [
+                Rule::in(Movie::specialFeatures)
+            ],
+            'image' => [
+                //nothing
+            ]
+        ]);
 
-        // return (new FilmResource($movie))
-        //     ->response()
-        //     ->setStatusCode(201);
-        //return new FilmResource(Film::find(3));
+        Movie::create($validatedData);
 
+        return response()->json('', 201);
     }
 
+    /**
+     * Store a new review for a specific movie.
+     *
+     * @param Movie $movie
+     * @param Request $request
+     * @return void
+     */
     public function storeReview(Movie $movie, Request $request) {
 
     }
